@@ -1,5 +1,6 @@
 package net.bghddevelopment.punishmentgui.utils;
 
+import com.cryptomorin.xseries.XMaterial;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Material;
@@ -23,15 +24,15 @@ public class Utilities {
     }
 
     public static void log(String message) {
-        Bukkit.getConsoleSender().sendMessage(net.bghddevelopment.punishmentgui.utils.Color.translate(message));
+        Bukkit.getConsoleSender().sendMessage(net.bghddevelopment.punishmentgui.utils.Color.translate("[PunishGUI] " + message));
     }
 
-    public static Material getMaterial(String source) {
-        Material material;
+    public static XMaterial getMaterial(String source) {
+        XMaterial material;
         try {
-            material = Material.valueOf(source);
+            material = XMaterial.matchXMaterial(source).get();
         } catch (Exception e) {
-            material = Material.REDSTONE_BLOCK;
+            material = XMaterial.REDSTONE_BLOCK;
         }
         return material;
     }

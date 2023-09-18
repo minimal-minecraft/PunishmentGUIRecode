@@ -1,5 +1,7 @@
 package net.bghddevelopment.punishmentgui.utils;
 
+import com.cryptomorin.xseries.XMaterial;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
@@ -26,15 +28,30 @@ public class ItemBuilder {
     }
 
     public ItemBuilder(Material m, int amount) {
-        is = new ItemStack(m, amount);
+        if (Bukkit.getVersion().contains("1.7")) {
+            is = new ItemStack(m, amount);
+        } else {
+            this.is = new ItemStack(XMaterial.matchXMaterial(m).parseMaterial(), amount);
+        }
     }
 
     public ItemBuilder(Material m, int amount, byte durability) {
-        is = new ItemStack(m, amount, durability);
+        if (Bukkit.getVersion().contains("1.7")) {
+            is = new ItemStack(m, amount, durability);
+        } else {
+            this.is = new ItemStack(XMaterial.matchXMaterial(m).parseMaterial(), amount, (short) durability);
+        }
     }
 
     public ItemBuilder clone() {
         return new ItemBuilder(is);
+    }
+
+    public ItemBuilder setCustomModelData(int data) {
+        ItemMeta im = is.getItemMeta();
+        im.setCustomModelData(data);
+        is.setItemMeta(im);
+        return this;
     }
 
     public ItemBuilder setDurability(short dur) {
